@@ -28,7 +28,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -50,7 +50,9 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.2</version>
                 <configuration>
-                    <failOnError>true</failOnError>
+                    <source>22</source>
+                    <target>22</target>
+                    <failOnError>false</failOnError>
                     <additionalOptions>
                         <option>-Xdoclint:none</option>
                     </additionalOptions>

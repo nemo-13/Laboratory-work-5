@@ -148,24 +148,29 @@ public class GameManager {
             }
         } 
         else {
-            try (InputStream is = getClass().getResourceAsStream("/Results.xlsx");
-                 XSSFWorkbook book = new XSSFWorkbook(is)) {
-
-                try (FileOutputStream out = new FileOutputStream(externalFile)) {
-                    book.write(out);
-                }
-
-                readDataFromWorkbook(book);
-            }
-         catch (IOException ex) {
-        Logger.getLogger(GameManager.class.getName()).log(
-            Level.SEVERE, 
-            "Ошибка копирования файла из ресурсов", 
-            ex
-            );
-        }
+            createNewResultsFile(externalFile);
         }
     }
+    
+    /**
+    * Создает новый файл результатов с заголовками столбцов
+    */
+    private void createNewResultsFile(File file) throws IOException {
+        try (XSSFWorkbook book = new XSSFWorkbook()) {
+            XSSFSheet sheet = book.createSheet("Результаты ТОП 10");
+            XSSFRow headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("№");
+            headerRow.createCell(1).setCellValue("Имя");
+            headerRow.createCell(2).setCellValue("Количество баллов");
+
+            try (FileOutputStream out = new FileOutputStream(file)) {
+                book.write(out);
+            }
+        }
+        // Инициализируем пустой список результатов
+        gameResults.clear();
+    }
+    
     /**
      * Считывает данные из книги Excel и добавляет их в список результатов.
      *
