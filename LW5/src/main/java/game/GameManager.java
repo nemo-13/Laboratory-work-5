@@ -84,7 +84,17 @@ public class GameManager {
      * @throws IOException при ошибках записи в файл
      */
     public void endGameTop(Player player, JTextField text, JTable table) throws IOException {
-        gameResults.add(new Results(text.getText(), player.getPoints()));
+        String playerName = text.getText().trim();
+    
+        if (playerName.isEmpty()) {
+            throw new IllegalArgumentException("Имя игрока не может быть пустым");
+        }
+
+        if (playerName.length() > 20) {
+            throw new IllegalArgumentException("Имя игрока слишком длинное");
+        }
+
+        gameResults.add(new Results(playerName, player.getPoints()));
         gameResults.sort(Comparator.comparing(Results::getPoints).reversed());
         writeToExcel();
         writeToTable(table);

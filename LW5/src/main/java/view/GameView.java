@@ -1149,19 +1149,32 @@ public class GameView extends JFrame {
     }//GEN-LAST:event_enterNameFieldActionPerformed
 
     private void endGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endGameButtonActionPerformed
+        String playerName = enterNameField.getText().trim();
+    
+        if (playerName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Имя не может быть пустым! Пожалуйста, введите имя.", 
+                "Ошибка ввода", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (playerName.length() > 20) {
+            JOptionPane.showMessageDialog(this, 
+                "Имя слишком длинное! Максимум 20 символов.", 
+                "Ошибка ввода", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         try {
-        helper.endGameTop(helper.fight.getHuman(), enterNameField, recordsTable);
-        
-        // Добавляем принудительное обновление таблицы
-        helper.writeToTable(recordsTable);
-        recordsTableDialog.revalidate();
-        recordsTableDialog.repaint();
-        
-    } catch (IOException ex) {
-        Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
-    }
-    endGameDialog.dispose();
-    enterNameField.setText("");
+            helper.endGameTop(helper.fight.getHuman(), enterNameField, recordsTable);
+            helper.writeToTable(recordsTable);
+        } catch (IOException ex) {
+            Logger.getLogger(GameView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        endGameDialog.dispose();
+        enterNameField.setText("");
     }//GEN-LAST:event_endGameButtonActionPerformed
 
     private void closeRecordsTableButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeRecordsTableButtonActionPerformed
